@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/ganesh-tammina/BNews/static/css/main.6603efba.css",
+    "main.js": "/ganesh-tammina/BNews/static/js/main.f39bf77e.js",
+    "static/js/453.9936c9e2.chunk.js": "/ganesh-tammina/BNews/static/js/453.9936c9e2.chunk.js",
+    "static/media/logo.svg": "/ganesh-tammina/BNews/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/ganesh-tammina/BNews/index.html",
+    "main.6603efba.css.map": "/ganesh-tammina/BNews/static/css/main.6603efba.css.map",
+    "main.f39bf77e.js.map": "/ganesh-tammina/BNews/static/js/main.f39bf77e.js.map",
+    "453.9936c9e2.chunk.js.map": "/ganesh-tammina/BNews/static/js/453.9936c9e2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6603efba.css",
+    "static/js/main.f39bf77e.js"
+  ]
+}
