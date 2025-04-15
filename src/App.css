@@ -1,0 +1,133 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+.custom-nav{
+  background-color: #7432f9;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-in {
+  animation: spinIn 2s ease-out;
+  mix-blend-mode: normal;
+}
+
+@keyframes spinIn {
+  0% {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+.custom-tabs{
+ li{
+    width: 50%
+  }
+  button{
+    width: 100%;
+  }
+  .nav-tabs .nav-link.active {
+    color: var(--bs-nav-tabs-link-active-color);
+    background-color: #7432f9;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-weight: 700;
+    border-color: var(--bs-nav-tabs-link-active-border-color);
+}
+}
+
+.form-group{
+  span{
+    color: red;
+  }
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  height: calc(100vh - 35vh);
+  border-bottom: 3px solid #0000;
+  background: 
+    linear-gradient(90deg,#524656 50%,#0000 0)
+    -25% 100%/50% 3px repeat-x border-box;
+  position: relative;
+  animation: l3-0 .90s linear infinite;
+}
+.loader:before {
+  content: "Loading";
+  position: absolute;
+  inset: auto 42.5% 0;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #CF4647;
+  display: flex;
+  color: #fff;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+  animation: l3-1 .90s cubic-bezier(0,900,1,900) infinite;
+}
+@keyframes l3-0 {
+  to {background-position: -125% 100%}
+}
+@keyframes l3-1 {
+  0%,2% {bottom: 0%}
+  98%,to {bottom:.1%}
+}
+.h-class{
+  text-transform: capitalize;
+}
+.no-data{
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+
+}
+.das-card{
+  cursor: pointer;
+}
+.btn{
+  margin: 0px 10px;
+}
+.d-img{
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin: auto;
+}

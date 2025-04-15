@@ -1,0 +1,143 @@
+{
+  "posts": [
+    {
+      "fname": "siva",
+      "lname": "Meesala",
+      "email": "Ganeshmeesala1@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 1
+    },
+    {
+      "fname": "ravi",
+      "lname": "kumar",
+      "email": "Ravikumar@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 2
+    },
+    {
+      "fname": "mani",
+      "lname": "tarak",
+      "email": "Tarak@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 3
+    },
+    {
+      "fname": "mani kumar",
+      "lname": "tarak",
+      "email": "Tarak@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 4
+    },
+    {
+      "fname": "mani kumar",
+      "lname": "tarak",
+      "email": "Tarak@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 5
+    },
+    {
+      "fname": "Siva",
+      "lname": "Gaesh",
+      "email": "Messalaganesh@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 6
+    },
+    {
+      "fname": "ram",
+      "lname": "Meesala",
+      "email": "RamaKrishna@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 7
+    },
+    {
+      "fname": "Siva",
+      "lname": "Gaesh",
+      "email": "Messalaganesh@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 8
+    },
+    {
+      "fname": "Siva",
+      "lname": "Gaesh",
+      "email": "Messalaganesh@gmail.com",
+      "password": "1234567",
+      "cpassword": "1234567",
+      "id": 9
+    },
+    {
+      "fname": "kiran",
+      "lname": "meesala",
+      "email": "ganeshK@gamil.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 10
+    },
+    {
+      "fname": "mani kumar",
+      "lname": "meesala",
+      "email": "meesaLl@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 11
+    },
+    {
+      "fname": "kiran",
+      "lname": "Meesala",
+      "email": "Kiran@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 12
+    },
+    {
+      "fname": "ram",
+      "lname": "kumar",
+      "email": "Siv@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 13
+    },
+    {
+      "fname": "kishore",
+      "lname": "meesala",
+      "email": "Siva@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 14
+    },
+    {
+      "fname": "ravi",
+      "lname": "Teja",
+      "email": "raviTeja@gmail.com",
+      "password": "123456",
+      "cpassword": "123456",
+      "id": 15
+    }
+  ],
+  "comments": [
+    {
+      "catagerious": {
+        "title": "C:\\fakepath\\News.jpg",
+        "file": ""
+      },
+      "id": 1
+    }
+  ],
+  "items": [
+    {
+      "news": {
+        "title": "RCB VS RR",
+        "content": "In the RR vs RCB head-to-head record, the Rajasthan Royals have won 14 matches while the Royal Challengers Bengaluru have won 16, with three matches ending without any result. The two teams first met in the inaugural edition of IPL in 2008,",
+        "item": "sports"
+      },
+      "id": 1
+    }
+  ]
+}
