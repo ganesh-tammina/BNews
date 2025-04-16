@@ -70,6 +70,7 @@ export default function LoginPage() {
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
+    localStorage.setItem("userData", JSON.stringify(user));
     navigate('Dashboard')
     // ...
   })

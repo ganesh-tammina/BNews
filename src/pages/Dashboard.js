@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import Navbar from '../componets/NavbarLayout';
 import CreateCategerios from '../componets/CreateCategerios'
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,13 +12,12 @@ import { doc, getDoc } from "firebase/firestore";
 import CrateNews from '../componets/CreateNews';
 import { auth, db } from "../firebase";
 
+export const UserContext = createContext();
 
-export default function Dashboard() {
+export default function Dashboard({children }) {
   const navigate = useNavigate();
   // const user = JSON.parse(localStorage.getItem("users"));
-  // const obj = { messages: [] };
-  // obj.messages.push(user);
-  // console.log(obj.messages[0].fname)
+  const obj = { messages: [] };
   const dispatch = useDispatch()
   const [pednding, Setpending] = useState(false)
   const data = useSelector(state => state.bookName)
@@ -27,31 +26,44 @@ export default function Dashboard() {
 
   const [show, setShow] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [userData, setUserData] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
+        try {
+          const docRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          setUserData(docSnap.data());
-          console.log("Current user data:", docSnap.data());
-        } else {
-          console.log("No user document found!");
+          if (docSnap.exists()) {
+            const firestoreData = docSnap.data();
+
+            // Merge Auth data + Firestore data
+            const fullUser = {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              ...firestoreData
+            };
+            setCurrentUser(fullUser);
+            console.log("Merged user object:", fullUser);
+            const b = obj.push(fullUser)
+            console.log(b);
+
+          } else {
+            console.log("No Firestore data found for user.");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
         }
       } else {
-        console.log("User is signed out");
+        console.log("No user logged in.");
       }
     });
 
-    console.log(userData)
-
-    return () => unsubscribe();
+    // return () => unsubscribe();
   }, []);
   const handleLogin = (mydata) => {
     axios.post("http://localhost:5500/comments", mydata).then(res => 
@@ -93,84 +105,24 @@ export default function Dashboard() {
   console.log(mydatas)
   console.log(data)
   console.log(searchQuery)
+  // console.log(fullUser)
 
 
  
   return (
-    
-    <div >
-      <Navbar/>
-      <div class=" my-3 me-4">
-      <div class="container">
-  <div class="row">
-    <div class="col-6">
-    {/* <h2 class="h-class">Wellcome {obj.messages[0].fname}</h2>  */}
-    </div>
-
-    <div class="col-6 text-end d-flex justify-content-end">
-    <CreateCategerios mylogin={handleLogin}/>
-    <CrateNews sendNews={getNews}/>
-    </div>
-  </div>
-  <div class="row">
-    
-  <div class="mt-3">
-          <div>
-   
-          <div class="text-center mb-4">
-          <input
-        type="text"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={e => setSearchQuery(e.target.value)}
-        className="w-50 mb-3 p-2 border rounded-md"
-      />
-          </div>
-          </div>
-       
-
-        {
-          mydatas.isLoading ? <div>
-        <div class="loader"></div>
-          </div> : <div class="d-flex" >
-            {filteredData.map((res,index)=>{
-              return <div key={index} onClick={() => handleClick(res)} class="text-center ms-4 card m-1 p-2 das-card" >
-                {res.catagerious.title}
-                </div>
-            })}
-      
-          </div>
-        
-        }
-        {
-          <div class="text-center no-data">
-           {text}
+    <di>
+    <Navbar/>
+    {currentUser ? (
+        <div>
+          {/* <p><strong>Username:</strong> {userData.username}</p> */}
+          <p><strong>Email:</strong> {currentUser.email}</p>
+          {/* <p><strong>Phone:</strong> {userData.phone}</p> */}
+          <p><strong>Address:</strong> {currentUser.address}</p>
         </div>
-        }
-       </div>
-  </div>
-</div>
-  
+      ) : (
+        <p>Loading user data...</p>
+      )}
+    </di>
 
-       <div>
-        {/* {
-          data.isLoading ? <div>
-        <div class="loader"></div>
-          </div> : <div >
-            {data.data.map((res)=>{
-              return <p class="ms-4">{res.fname}</p>
-            })}
-          </div>
-    
-        } */}
-       </div>
-
-       <div>
-       <div >
-
-</div>
-       </div>
-      </div>
-    </div>
   )
 }
