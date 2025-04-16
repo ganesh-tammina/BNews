@@ -108,23 +108,16 @@ export default function Dashboard() {
   console.log(data)
   console.log(searchQuery)
   // console.log(fullUser)
-  const handleLogout = () => {
-    firebaseLogout(
-      () => {
-        alert("Logged out!");
-        navigate("/welcome"); 
-      },
-      (error) => {
-        alert("Logout failed!");
-      }
-    );
-  };
+
 
  
   return (
     <div>
-    {/* <Navbar/> */}
-    {currentUser ? (
+    <Navbar/>
+    <div class="container mt-3">
+      <div class="row">
+          <div class="col-6">
+          {currentUser ? (
         <div>
           {/* <p><strong>Username:</strong> {userData.username}</p> */}
           <h2>Wellcome {currentUser.displayName}</h2>
@@ -132,8 +125,18 @@ export default function Dashboard() {
       ) : (
         <p>Loading user data...</p>
       )}
+          </div>
+          <div class="col-6 text-end d-flex justify-content-end">
+          {/* <button type="button" class="btn btn-primary">ADD catageory</button> */}
+          <CreateCategerios/>
+          <CrateNews/>
+
+          </div>
+
+      </div>
+    </div>
+
       <div>
-      <button onClick={handleLogout}>Logout</button>
       </div>
     </div>
 
