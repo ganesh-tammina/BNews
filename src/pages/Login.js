@@ -88,7 +88,7 @@ export default function LoginPage() {
     
     
       
-      <button type="submit"  className="btn btn-primary my-3">Sign in</button>
+      <button type="submit"  className="btn btn-primary my-3">Login in</button>
     </form>
         </Container>
       </div>
