@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Signup from '../pages/Signup';
 import axios from 'axios';
 import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import {app, auth} from "../firebase"
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+
 
 export default function LoginPage() {
   const [errors, setErrors] = useState({});
@@ -13,6 +15,19 @@ export default function LoginPage() {
     email:"",
     password:""
   });
+
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Logged in user:", user);
+      } else {
+        console.log("No user logged in");
+      }
+    });
+  
+    return () => unsubscribe(); // Cleanup
+  }, []);
  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -55,7 +70,6 @@ export default function LoginPage() {
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    console.log(userCredential)
     navigate('Dashboard')
     // ...
   })

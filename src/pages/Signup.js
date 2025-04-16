@@ -1,10 +1,12 @@
 import validation from 'ajv/dist/vocabularies/validation';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
-import {app, auth} from "../firebase"
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {app, auth,db} from "../firebase"
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { setDoc, doc } from 'firebase/firestore';
+import { collection, getDocs } from "firebase/firestore";
 
 
 export default function Signup() {
@@ -12,75 +14,59 @@ export default function Signup() {
       fname :'',
       lname :'',
       email:'',
+      address:"",
       password:'',  
       cpassword:'',  
     })
+
+      useEffect(() => {
+        fetchAllUsers();
+      }, []);
+    
 
     const [errors, setErrors] = useState({});
     const [valid, setValid] = useState(true);
     const navigate = useNavigate()
 
-    const handleSubmits = (e)=>{
+    const handleSubmits = (e) => {
       e.preventDefault();
+    
       createUserWithEmailAndPassword(auth, fomData.email, fomData.password)
-  .then((userCredential) => {
-    // Signed up 
-    const user = userCredential.user;
-    alert("User added Successfuly")
-    window.location.reload()
-    console.log(userCredential)
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(error)
-
-    // ..
-  });
-      // let isvalid = true;
-      // let validationErrors={}
-      // if(fomData.fname === "" || fomData.fname == null){
-      //   isvalid = false;
-      //   validationErrors.fname = "First name is required"
-      // }
-      // if(fomData.lname === "" || fomData.lname == null){
-      //   isvalid = false;
-      //   validationErrors.lname = "Last name is required"
-      // }
-      // if(fomData.email === "" || fomData.email == null){
-      //   isvalid = false;
-      //   validationErrors.email = "email name is required"
-      // }
-      // else if(/^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/.test(fomData.email)){
-      //   isvalid = false;
-      //   validationErrors.email = "Email is not Valid"
-      // }
-      // if(fomData.password === "" || fomData.password == null){
-      //   isvalid = false;
-      //   validationErrors.password = "password is required"
-      // }
-      // else if(fomData.password.length < 6){
-      //   isvalid = false;
-      //   validationErrors.password = "password length at least 6 char"
-      // }
-      // if(fomData.cpassword !== fomData.password){
-      //   isvalid = false;
-      //   validationErrors.cpassword = "confirm password is not matched"
-      // }
-
-      // setErrors(validationErrors)
-      // setValid(isvalid)
-      // if(Object.keys(validationErrors).length == 0){
-      //   axios.post("http://localhost:5500/posts",fomData).then(result =>
-      //     alert("Register Successfully"),
-      //     window.location.reload()
-      //   )
-      //   .catch(err => console.log(err))
-      // }
-
+        .then((userCredential) => {
+          const user = userCredential.user;
+          return updateProfile(user, {
+            displayName: fomData.fname
+          }).then(() => {
+            // Store extra data in Firestore
+            return setDoc(doc(db, "users", user.uid), {
+              lname: fomData.lname,
+              address:fomData.address
+            });
+          });
+        })
+        .then(() => {
+          alert("User registered with full profile data!");
+        })
+        .catch((error) => {
+          console.error("Error during signup:", error.code, error.message);
+        });
     }
 
+
+    const fetchAllUsers = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const users = [];
+        
+        querySnapshot.forEach((doc) => {
+          users.push({ id: doc.id, ...doc.data() });
+        });
+    
+        console.log("All users:", users);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
   return (
     <div className="login-page d-flex align-items-center justify-content-center">
     <Container>
@@ -111,6 +97,12 @@ export default function Signup() {
       <input type="password" className="form-control" name="cpassword" onChange={(e)=>{setFormData({...fomData, cpassword:e.target.value})}} placeholder="Password" />
       <span>{valid ? <></> : <span>{errors.cpassword}</span>}</span>
     </div>
+    <div className="form-group col-md-12">
+      <label>Address</label>
+      <textarea className="form-control" name="cpassword" onChange={(e)=>{setFormData({...fomData, address:e.target.value})}} placeholder='Enter Address'></textarea >
+      <span>{valid ? <></> : <span>{errors.address}</span>}</span>
+    </div>
+    
   </div>
 
 
