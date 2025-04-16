@@ -3,6 +3,9 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
+import {app, auth} from "../firebase"
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 
 export default function Signup() {
     const [fomData, setFormData] = useState({
@@ -17,55 +20,71 @@ export default function Signup() {
     const [valid, setValid] = useState(true);
     const navigate = useNavigate()
 
-    const handleSubmit = (e)=>{
+    const handleSubmits = (e)=>{
       e.preventDefault();
-      let isvalid = true;
-      let validationErrors={}
-      if(fomData.fname === "" || fomData.fname == null){
-        isvalid = false;
-        validationErrors.fname = "First name is required"
-      }
-      if(fomData.lname === "" || fomData.lname == null){
-        isvalid = false;
-        validationErrors.lname = "Last name is required"
-      }
-      if(fomData.email === "" || fomData.email == null){
-        isvalid = false;
-        validationErrors.email = "email name is required"
-      }
-      else if(/^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/.test(fomData.email)){
-        isvalid = false;
-        validationErrors.email = "Email is not Valid"
-      }
-      if(fomData.password === "" || fomData.password == null){
-        isvalid = false;
-        validationErrors.password = "password is required"
-      }
-      else if(fomData.password.length < 6){
-        isvalid = false;
-        validationErrors.password = "password length at least 6 char"
-      }
-      if(fomData.cpassword !== fomData.password){
-        isvalid = false;
-        validationErrors.cpassword = "confirm password is not matched"
-      }
+      createUserWithEmailAndPassword(auth, fomData.email, fomData.password)
+  .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    alert("User added Successfuly")
+    window.location.reload()
+    console.log(userCredential)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(error)
 
-      setErrors(validationErrors)
-      setValid(isvalid)
-      if(Object.keys(validationErrors).length == 0){
-        axios.post("http://localhost:5500/posts",fomData).then(result =>
-          alert("Register Successfully"),
-          window.location.reload()
-        )
-        .catch(err => console.log(err))
-      }
+    // ..
+  });
+      // let isvalid = true;
+      // let validationErrors={}
+      // if(fomData.fname === "" || fomData.fname == null){
+      //   isvalid = false;
+      //   validationErrors.fname = "First name is required"
+      // }
+      // if(fomData.lname === "" || fomData.lname == null){
+      //   isvalid = false;
+      //   validationErrors.lname = "Last name is required"
+      // }
+      // if(fomData.email === "" || fomData.email == null){
+      //   isvalid = false;
+      //   validationErrors.email = "email name is required"
+      // }
+      // else if(/^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/.test(fomData.email)){
+      //   isvalid = false;
+      //   validationErrors.email = "Email is not Valid"
+      // }
+      // if(fomData.password === "" || fomData.password == null){
+      //   isvalid = false;
+      //   validationErrors.password = "password is required"
+      // }
+      // else if(fomData.password.length < 6){
+      //   isvalid = false;
+      //   validationErrors.password = "password length at least 6 char"
+      // }
+      // if(fomData.cpassword !== fomData.password){
+      //   isvalid = false;
+      //   validationErrors.cpassword = "confirm password is not matched"
+      // }
+
+      // setErrors(validationErrors)
+      // setValid(isvalid)
+      // if(Object.keys(validationErrors).length == 0){
+      //   axios.post("http://localhost:5500/posts",fomData).then(result =>
+      //     alert("Register Successfully"),
+      //     window.location.reload()
+      //   )
+      //   .catch(err => console.log(err))
+      // }
 
     }
 
   return (
     <div className="login-page d-flex align-items-center justify-content-center">
     <Container>
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmits}>
   <div className="form-row">
   <div className="form-group">
     <label>First Name</label>

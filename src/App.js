@@ -14,6 +14,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Welcome/>}></Route>
       <Route path='welcome' element={<Welcome/>}></Route>
+      <Route path='login' element={<LoginPage/>}></Route>
       <Route path='Dashboard' element={<Dashboard/>}></Route>
       <Route path="CatageriousPage/:id" element={<CatageriousPages/>}></Route>
       <Route path="userdashboard" element={<CatageriousPages/>}></Route>
