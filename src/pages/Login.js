@@ -71,7 +71,7 @@ export default function LoginPage() {
     // Signed in 
     const user = userCredential.user;
     localStorage.setItem("userData", JSON.stringify(user));
-    navigate('Dashboard')
+    navigate('/Dashboard')
     // ...
   })
   .catch((error) => {

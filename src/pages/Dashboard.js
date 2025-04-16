@@ -11,10 +11,12 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import CrateNews from '../componets/CreateNews';
 import { auth, db } from "../firebase";
+import firebaseLogout from "../componets/Logout";
+// import { logout } from "../componets/NavbarLayout"
 
 export const UserContext = createContext();
 
-export default function Dashboard({children }) {
+export default function Dashboard() {
   const navigate = useNavigate();
   // const user = JSON.parse(localStorage.getItem("users"));
   const obj = { messages: [] };
@@ -106,23 +108,34 @@ export default function Dashboard({children }) {
   console.log(data)
   console.log(searchQuery)
   // console.log(fullUser)
-
+  const handleLogout = () => {
+    firebaseLogout(
+      () => {
+        alert("Logged out!");
+        navigate("/welcome"); 
+      },
+      (error) => {
+        alert("Logout failed!");
+      }
+    );
+  };
 
  
   return (
-    <di>
-    <Navbar/>
+    <div>
+    {/* <Navbar/> */}
     {currentUser ? (
         <div>
           {/* <p><strong>Username:</strong> {userData.username}</p> */}
-          <p><strong>Email:</strong> {currentUser.email}</p>
-          {/* <p><strong>Phone:</strong> {userData.phone}</p> */}
-          <p><strong>Address:</strong> {currentUser.address}</p>
+          <h2>Wellcome {currentUser.displayName}</h2>
         </div>
       ) : (
         <p>Loading user data...</p>
       )}
-    </di>
+      <div>
+      <button onClick={handleLogout}>Logout</button>
+      </div>
+    </div>
 
   )
 }

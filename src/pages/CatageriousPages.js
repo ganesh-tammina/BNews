@@ -21,7 +21,7 @@ const item = state?.item;
 
   return (
     <div>
-      <Navbar/>
+      {/* <Navbar/> */}
     <div class="container my-3">
     <div class="row">
         <div class="col-6">
