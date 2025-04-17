@@ -1,9 +1,15 @@
-import React from 'react'
+import React, {useEffect, useState}from 'react'
 import firebaseLogout from "../componets/Logout";
 import { useNavigate } from 'react-router-dom';
 
 export default function Navbar ()   {
+   const [time, setTime] = useState(new Date());
     const navigate = useNavigate();
+
+        useEffect(() => {
+          const timer = setInterval(() => setTime(new Date()), 1000);
+          return () => clearInterval(timer); // Cleanup on unmount
+        }, []);
   const handleLogout = () => {
     firebaseLogout(
       () => {
@@ -16,6 +22,7 @@ export default function Navbar ()   {
       }
     );
   };
+
   return (
    <div>
     <nav class="navbar navbar-expand-lg custom-nav">
@@ -46,8 +53,9 @@ export default function Navbar ()   {
         </li>
 
       </ul>
-      <form class="d-flex" role="search">
+      <form class="d-flex align-items-center" role="search">
         {/* <button  type="submit">Search</button> */}
+        <p class="text-white">{time.toLocaleTimeString()}</p>
         <button class="btn btn-success" onClick={handleLogout}>Logout</button>
       </form>
     </div>

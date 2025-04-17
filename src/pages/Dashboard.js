@@ -15,6 +15,7 @@ import { database } from '../firebase';
 import firebaseLogout from "../componets/Logout";
 import { ref, onValue } from 'firebase/database';
 import { setCategories } from '../Redux/CatSlice';
+// import Weather from '../componets/weather';
 // import { logout } from "../componets/NavbarLayout"
 
 export const UserContext = createContext();

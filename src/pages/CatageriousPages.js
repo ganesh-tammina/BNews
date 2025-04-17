@@ -52,20 +52,20 @@ const item = state?.item;
       </div>
       <div>
       </div>
-      {comments.length === 0 ? (
-        <p>No comments found.</p>
-      ) : (
+   
         <div class="mt-5">
-          {comments.map((item, index) => (
-            <div class="card das-card"  key={index} style={{ marginBottom: '10px' }}>
-               {item.title} 
-               <div>
-                {item.content}
-               </div>
-            </div>
-          ))}
+          {comments.map((res, index) => {
+            if(item.title == res.item){
+              return <div class="card das-card me-2"  key={index} style={{ marginBottom: '10px' }}>
+              {res.title} 
+              <div>
+               {res.content}
+              </div>
+           </div>
+            }
+          
+})}
         </div>
-      )}
       </div>
       </div>
   )
