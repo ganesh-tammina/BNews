@@ -100,14 +100,14 @@ export default function Dashboard() {
   };
   
   
-  // const filteredData = mydatas.mydata.filter(item =>
-  //   item.catagerious.title.toLowerCase().includes(searchQuery.toLowerCase())
-  // );
+  const filteredData = comments.filter(item =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  // console.log(typeof(filteredData))
-  // if(filteredData.length <= 0){
-  //   var text = "no catageory is found"
-  // }
+  console.log(typeof(filteredData))
+  if(filteredData.length <= 0){
+    var text = "no catageory is found"
+  }
 
   const handleClick = (item) => {
     console.log('Clicked item:', item.id);
@@ -146,14 +146,30 @@ export default function Dashboard() {
           </div>
 
       </div>
+
+     <div class="row mt-5">
+     <div>
+   
+   <div class="text-center">
+   <input
+ type="text"
+ placeholder="Search..."
+ value={searchQuery}
+ onChange={e => setSearchQuery(e.target.value)}
+ className="w-50 mb-3 p-2 border rounded-md"
+/>
+   </div>
+   </div>
+     </div>
+
       <div class="row">
         
       <div>
-        {comments.length === 0 ? (
+        {filteredData.length === 0 ? (
         <p>No comments found.</p>
       ) : (
-        <div class="mt-5">
-          {comments.map((item, index) => (
+        <div class="mt-2">
+          {filteredData.map((item, index) => (
             <div class="card das-card" onClick={() => handleClick(item)} key={index} style={{ marginBottom: '10px' }}>
                {item.title} 
             </div>
