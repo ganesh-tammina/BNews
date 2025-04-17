@@ -15,6 +15,7 @@ import { database } from '../firebase';
 import firebaseLogout from "../componets/Logout";
 import getCommentsFromRealtimeDB from '../Redux/arrayCreation';
 import { ref, onValue } from 'firebase/database';
+import { setCategories } from '../Redux/CatSlice';
 // import { logout } from "../componets/NavbarLayout"
 
 export const UserContext = createContext();
@@ -35,6 +36,7 @@ export default function Dashboard() {
   const [comments, setComments] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -77,6 +79,7 @@ export default function Dashboard() {
         const formatted = Array.isArray(data) ? data : Object.values(data);
         const catList = formatted.map(item => item.catagerious);
         setComments(catList);
+        dispatch(setCategories(catList));
         console.log("🔄 Real-time data updated:", catList);
       } else {
         setComments([]);
@@ -84,28 +87,27 @@ export default function Dashboard() {
     });
     return () => unsubscribes();
 
-  }, []);
+  }, [dispatch]);
   const handleLogin = (mydata) => {
     axios.post("https://bnews-4833f-default-rtdb.firebaseio.com/catagerious.json", mydata)
     // You could send this to an API or process it further
   };
 
   const getNews = (ress) => {
-    axios.post("http://localhost:5500/items", ress).then(res =>{
+    axios.post("https://bnews-4833f-default-rtdb.firebaseio.com/news.json", ress).then(res =>{
       alert("add items")
-      window.location.reload()
     })
   };
   
   
-  const filteredData = mydatas.mydata.filter(item =>
-    item.catagerious.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // const filteredData = mydatas.mydata.filter(item =>
+  //   item.catagerious.title.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
 
-  console.log(typeof(filteredData))
-  if(filteredData.length <= 0){
-    var text = "no catageory is found"
-  }
+  // console.log(typeof(filteredData))
+  // if(filteredData.length <= 0){
+  //   var text = "no catageory is found"
+  // }
 
   const handleClick = (item) => {
     console.log('Clicked item:', item.id);

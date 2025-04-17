@@ -11,6 +11,8 @@ export default function CreateCategerios({sendNews}) {
     const handleClose = () => setShow(false);
     const createNews = () => setShow(true);
     const mydatas = useSelector(state => state.catName)
+    const categories = useSelector((state) => state.category.list);
+
 
 
     const [news, Setnews] = useState({
@@ -61,9 +63,9 @@ export default function CreateCategerios({sendNews}) {
     <div>
     <select class="w-100" onChange={(e)=> Setnews({...news, item:e.target.value})}>
     {
-        mydatas.mydata.map((res,index)=>(
+        categories.map((res,index)=>(
           <option key={index}>
-          {res.catagerious.title}
+          {res.title}
         </option>
         ))
         }
