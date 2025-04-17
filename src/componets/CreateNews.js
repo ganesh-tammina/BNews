@@ -12,7 +12,7 @@ export default function CreateCategerios({sendNews}) {
     const createNews = () => setShow(true);
     const mydatas = useSelector(state => state.catName)
     const categories = useSelector((state) => state.category.list);
-
+  // console.log(categories)
 
 
     const [news, Setnews] = useState({

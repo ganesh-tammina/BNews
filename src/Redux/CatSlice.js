@@ -6,11 +6,11 @@ import {createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const categorySlice = createSlice({
     name:"category",
     initialState:{
-        mydata:[],
+        list:[],
     },
     reducers:{
         setCategories:(state, action) =>{
-            state.list = action.payload
+            state.list = action.payload || []
         }
     }
 })

@@ -35,19 +35,19 @@ const item = state?.item;
       <div>
       </div>
       {
- mydatas.itemdata.map((res)=>{
-  if(res.news.item == item.catagerious.title){
-    return <div class="my-3 card p-3">
-      <div>
-      <h4>{res.news.title}</h4>
-        </div>
-      <div class="">
-      {res.news.content}
-        </div>
-      </div>
-  }
+//  mydatas.itemdata.map((res)=>{
+//   if(res.news.item == item.catagerious.title){
+//     return <div class="my-3 card p-3">
+//       <div>
+//       <h4>{res.news.title}</h4>
+//         </div>
+//       <div class="">
+//       {res.news.content}
+//         </div>
+//       </div>
+//   }
 
-})
+// })
       }
       {/* {
         <div>

@@ -96,6 +96,7 @@ export default function Dashboard() {
   const getNews = (ress) => {
     axios.post("https://bnews-4833f-default-rtdb.firebaseio.com/news.json", ress).then(res =>{
       alert("add items")
+      window.location.reload()
     })
   };
   
@@ -142,7 +143,7 @@ export default function Dashboard() {
           <div class="col-6 text-end d-flex justify-content-end">
           {/* <button type="button" class="btn btn-primary">ADD catageory</button> */}
           <CreateCategerios mylogin={handleLogin}/>
-          <CrateNews/>
+          <CrateNews sendNews={getNews}/>
           </div>
 
       </div>
@@ -153,8 +154,8 @@ export default function Dashboard() {
         <p>No comments found.</p>
       ) : (
         <div class="mt-5">
-          {comments.map((item) => (
-            <div class="card das-card" style={{ marginBottom: '10px' }}>
+          {comments.map((item, index) => (
+            <div class="card das-card" key={index} style={{ marginBottom: '10px' }}>
                {item.title} 
             </div>
           ))}
