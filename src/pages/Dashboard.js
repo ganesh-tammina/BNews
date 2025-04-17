@@ -13,7 +13,6 @@ import CrateNews from '../componets/CreateNews';
 import { auth, db } from "../firebase";
 import { database } from '../firebase';
 import firebaseLogout from "../componets/Logout";
-import getCommentsFromRealtimeDB from '../Redux/arrayCreation';
 import { ref, onValue } from 'firebase/database';
 import { setCategories } from '../Redux/CatSlice';
 // import { logout } from "../componets/NavbarLayout"
@@ -96,7 +95,6 @@ export default function Dashboard() {
   const getNews = (ress) => {
     axios.post("https://bnews-4833f-default-rtdb.firebaseio.com/news.json", ress).then(res =>{
       alert("add items")
-      window.location.reload()
     })
   };
   
@@ -112,7 +110,7 @@ export default function Dashboard() {
 
   const handleClick = (item) => {
     console.log('Clicked item:', item.id);
-    navigate(`/CatageriousPage/${item.catagerious.title}`, { state: { item } });
+    navigate(`/CatageriousPage/${item.title}`, { state: { item } });
     // Trigger any logic you want here
   };
 
@@ -155,7 +153,7 @@ export default function Dashboard() {
       ) : (
         <div class="mt-5">
           {comments.map((item, index) => (
-            <div class="card das-card" key={index} style={{ marginBottom: '10px' }}>
+            <div class="card das-card" onClick={() => handleClick(item)} key={index} style={{ marginBottom: '10px' }}>
                {item.title} 
             </div>
           ))}

@@ -1,19 +1,37 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import Navbar from '../componets/NavbarLayout'
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateNews from '../componets/CreateNews'
 import { eachItem } from '../Redux/eachItems';
+import { ref, onValue } from 'firebase/database';
+import { setCategories } from '../Redux/CatSlice';
+import { database } from '../firebase';
+
 
 export default function CatageriousPages() {
     const dispatch = useDispatch()
   const mydatas = useSelector(state => state.itemName)
 const { id } = useParams();
 const { state } = useLocation();
+  const [comments, setComments] = useState([]);
+
 
 const item = state?.item;
   useEffect(()=>{
-    dispatch(eachItem())
+    const categoriesRef = ref(database, 'news');
+    const unsubscribes = onValue(categoriesRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const formatted = Array.isArray(data) ? data : Object.values(data);
+        const catList = formatted.map(item => item.news);
+        setComments(catList);
+        console.log("🔄 Real-time data updated:", catList);
+      } else {
+        setComments([]);
+      }
+    });
+    return () => unsubscribes();
   },[])
 
 
@@ -21,11 +39,11 @@ const item = state?.item;
 
   return (
     <div>
-      {/* <Navbar/> */}
+      <Navbar/>
     <div class="container my-3">
     <div class="row">
         <div class="col-6">
-        <h2 class="h-class">{item.catagerious.title}</h2> 
+        <h2 class="h-class">{item.title}</h2> 
         </div>
     
         <div class="col-6 text-end">
@@ -34,26 +52,20 @@ const item = state?.item;
       </div>
       <div>
       </div>
-      {
-//  mydatas.itemdata.map((res)=>{
-//   if(res.news.item == item.catagerious.title){
-//     return <div class="my-3 card p-3">
-//       <div>
-//       <h4>{res.news.title}</h4>
-//         </div>
-//       <div class="">
-//       {res.news.content}
-//         </div>
-//       </div>
-//   }
-
-// })
-      }
-      {/* {
-        <div>
-          <h6>No data</h6>
+      {comments.length === 0 ? (
+        <p>No comments found.</p>
+      ) : (
+        <div class="mt-5">
+          {comments.map((item, index) => (
+            <div class="card das-card"  key={index} style={{ marginBottom: '10px' }}>
+               {item.title} 
+               <div>
+                {item.content}
+               </div>
+            </div>
+          ))}
         </div>
-      } */}
+      )}
       </div>
       </div>
   )
