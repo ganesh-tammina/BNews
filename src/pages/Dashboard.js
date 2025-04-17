@@ -11,6 +11,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import CrateNews from '../componets/CreateNews';
 import { auth, db } from "../firebase";
+import { database } from '../firebase';
 import firebaseLogout from "../componets/Logout";
 import getCommentsFromRealtimeDB from '../Redux/arrayCreation';
 import { ref, onValue } from 'firebase/database';
@@ -66,29 +67,26 @@ export default function Dashboard() {
         console.log("No user logged in.");
       }
     });
-
-    const fetchData = async () => {
-      const data = await getCommentsFromRealtimeDB();
-
-      // ✅ If data is an array, extract "catagerious" from each object
-      if (Array.isArray(data)) {
-        const catList = data.map((item) => item.catagerious);
-        setComments(catList);
-        console.log("✅ Extracted catagerious list:", catList);
-      } else {
-        console.warn("⚠️ Data is not an array:", data);
-      }
-    };
-
-    fetchData();
-
     // return () => unsubscribe();
+
+
+    const categoriesRef = ref(database, 'catagerious');
+    const unsubscribes = onValue(categoriesRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const formatted = Array.isArray(data) ? data : Object.values(data);
+        const catList = formatted.map(item => item.catagerious);
+        setComments(catList);
+        console.log("🔄 Real-time data updated:", catList);
+      } else {
+        setComments([]);
+      }
+    });
+    return () => unsubscribes();
+
   }, []);
   const handleLogin = (mydata) => {
-    axios.post("https://bnews-4833f-default-rtdb.firebaseio.com/catagerious.json", mydata).then(res => 
-      alert("added succefulyy"),
-    )
-
+    axios.post("https://bnews-4833f-default-rtdb.firebaseio.com/catagerious.json", mydata)
     // You could send this to an API or process it further
   };
 
@@ -146,21 +144,24 @@ export default function Dashboard() {
           </div>
 
       </div>
-    </div>
-
+      <div class="row">
+        
       <div>
         {comments.length === 0 ? (
         <p>No comments found.</p>
       ) : (
-        <ul>
+        <div class="mt-5">
           {comments.map((item) => (
-            <li  style={{ marginBottom: '10px' }}>
+            <div class="card das-card" style={{ marginBottom: '10px' }}>
                {item.title} 
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
       </div>
+      </div>
+    </div>
+
     </div>
 
   )

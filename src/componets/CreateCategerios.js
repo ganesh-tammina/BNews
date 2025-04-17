@@ -23,7 +23,7 @@ export default function CreateCategerios({mylogin, newimg}) {
         const mydata = {catagerious}
         console.log(catagerious)
         mylogin(mydata)
-        
+        handleClose()
       }
    
   return (

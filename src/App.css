@@ -121,6 +121,10 @@
 }
 .das-card{
   cursor: pointer;
+  padding: 10px;
+  font-weight: 500;
+  color: #7432f9;
+  font-size: 18px;
 }
 .btn{
   margin: 0px 10px;
