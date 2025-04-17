@@ -12,6 +12,8 @@ import { doc, getDoc } from "firebase/firestore";
 import CrateNews from '../componets/CreateNews';
 import { auth, db } from "../firebase";
 import firebaseLogout from "../componets/Logout";
+import getCommentsFromRealtimeDB from '../Redux/arrayCreation';
+import { ref, onValue } from 'firebase/database';
 // import { logout } from "../componets/NavbarLayout"
 
 export const UserContext = createContext();
@@ -29,7 +31,7 @@ export default function Dashboard() {
   const [show, setShow] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [comments, setComments] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   useEffect(() => {
@@ -65,12 +67,26 @@ export default function Dashboard() {
       }
     });
 
+    const fetchData = async () => {
+      const data = await getCommentsFromRealtimeDB();
+
+      // ✅ If data is an array, extract "catagerious" from each object
+      if (Array.isArray(data)) {
+        const catList = data.map((item) => item.catagerious);
+        setComments(catList);
+        console.log("✅ Extracted catagerious list:", catList);
+      } else {
+        console.warn("⚠️ Data is not an array:", data);
+      }
+    };
+
+    fetchData();
+
     // return () => unsubscribe();
   }, []);
   const handleLogin = (mydata) => {
-    axios.post("http://localhost:5500/comments", mydata).then(res => 
+    axios.post("https://bnews-4833f-default-rtdb.firebaseio.com/catagerious.json", mydata).then(res => 
       alert("added succefulyy"),
-      window.location.reload()
     )
 
     // You could send this to an API or process it further
@@ -98,11 +114,8 @@ export default function Dashboard() {
     navigate(`/CatageriousPage/${item.catagerious.title}`, { state: { item } });
     // Trigger any logic you want here
   };
-  useEffect(()=>{
-    dispatch(fetchTodo())
-    dispatch(catTodo())
 
-  },[])
+
 
   console.log(mydatas)
   console.log(data)
@@ -128,15 +141,25 @@ export default function Dashboard() {
           </div>
           <div class="col-6 text-end d-flex justify-content-end">
           {/* <button type="button" class="btn btn-primary">ADD catageory</button> */}
-          <CreateCategerios/>
+          <CreateCategerios mylogin={handleLogin}/>
           <CrateNews/>
-
           </div>
 
       </div>
     </div>
 
       <div>
+        {comments.length === 0 ? (
+        <p>No comments found.</p>
+      ) : (
+        <ul>
+          {comments.map((item) => (
+            <li  style={{ marginBottom: '10px' }}>
+               {item.title} 
+            </li>
+          ))}
+        </ul>
+      )}
       </div>
     </div>
 

@@ -13,7 +13,6 @@ export default function CreateCategerios({mylogin, newimg}) {
 
     const [catagerious, Setcatagerious] = useState({
         title:"",
-        file:""
     })
 
       useEffect(()=>{
